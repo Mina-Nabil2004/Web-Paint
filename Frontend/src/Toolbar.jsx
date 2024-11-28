@@ -1,4 +1,4 @@
-import { useState } from 'react';
+/* eslint-disable react/prop-types */
 import { IconButton } from '@mui/material'
 import FillColorIcon from '@mui/icons-material/SquareRounded'
 import BorderWidthIcon from '@mui/icons-material/LineWeightRounded';
