@@ -51,7 +51,7 @@ public class control {
             ShapeFactory factory = new ShapeFactory();
             dto = paintService.updateDTO(dto, newX, newY);
             shape updatedShape = factory.createShape(dto);
-            return ResponseEntity.ok(updatedShape);
+            return ResponseEntity.ok(updatedShape); // need fixing 
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
@@ -62,6 +62,7 @@ public class control {
     public ResponseEntity<Object> endingUpdate(@RequestBody ShapeDTO dto, @PathVariable double newX, @PathVariable double newY) {
         try {
             ShapeFactory factory = new ShapeFactory();
+
             dto = paintService.updateDTO(dto, newX, newY);
             shape updatedShape = factory.createShape(dto);
             paintService.updateshape(updatedShape);

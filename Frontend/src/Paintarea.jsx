@@ -8,7 +8,6 @@ import axios from "axios";
 function Paintarea(props){
     const [stageSize, setStageSize] = useState({width:1450,height:545});
     const [newID, setNewID] = useState("0");
-
     //Check weather the page was refreshed or not and send to back to clear data
     /*useEffect(() => {
       if (sessionStorage.getItem('is_reloaded')) {
@@ -43,7 +42,6 @@ function Paintarea(props){
     const transformerRef = useRef(null);
 
     const createShape = async (data) =>{
-      console.log(data);
       const shape = new Konva[data.konvaname](data);
       setNewShape(shape);
       layerRef.current.add(shape);
@@ -71,11 +69,7 @@ function Paintarea(props){
           name: props.shapeType,
           id: newID,
         });
-        console.log("hello");
-        console.log(response.data);
-        console.log(newShape);
         newShape.setAttrs(response.data);
-        console.log(newShape);
         layerRef.current.batchDraw();
     };
     
@@ -90,17 +84,13 @@ function Paintarea(props){
         setNewID(n => (parseInt(n) + 1).toString());
         setIsDrawing(false);
       };
-
       useEffect(() => {
         if (selectedNode) {
             transformerRef.current.nodes([selectedNode]);
             transformerRef.current.getLayer().batchDraw();
         }
       }, [selectedNode]);
-
       useEffect(() => {
-        console.log(props.color);
-        console.log(typeof(props.color));
         if (selectedNode != null) {
             selectedNode.fill(props.color);
             layerRef.current.batchDraw();
@@ -118,7 +108,6 @@ function Paintarea(props){
             }
         props.setUpdate(false);
       }, [props.color, props.update]);
-
       useEffect(() => {
         console.log(props.strokeColor);
         console.log(typeof(props.strokeColor));
@@ -155,7 +144,6 @@ function Paintarea(props){
 
       useEffect(() => {
         const del = () =>{
-          console.log(selectedNode);
           if (selectedNode != null && props.del) {
             axios.delete(`http://localhost:8080/paint/remove/${selectedNode.attrs.id}`);
             selectedNode.remove();

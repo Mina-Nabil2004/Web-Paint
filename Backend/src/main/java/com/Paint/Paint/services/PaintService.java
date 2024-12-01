@@ -19,11 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class PaintService {
 
     private static PaintService paintService =null;
-
     private PaintService() {
         // Private constructor to prevent instantiation from outside
     }
-
     public static PaintService getInstance(){
         if(paintService == null){
             paintService = new PaintService();
@@ -70,7 +68,6 @@ public class PaintService {
         printShapeStack();
         printShapeStackallshapes();
     }
-
     public void addShape(shape shape, boolean flag){
         List<shape> currentShapes=getcurrentShapes();
         currentShapes.add(shape);
@@ -152,7 +149,7 @@ public class PaintService {
             }
         }
         changedmap();
-        undo.push(currentshapes);
+        undo.push(currentshapes); // must be changed 
         saveState(currentshapes);
         printShapeStack();
         printShapeStackallshapes();
