@@ -47,6 +47,9 @@ public class control {
     @PutMapping("/create/{newX}/{newY}")
     public ResponseEntity<Object> create(@RequestBody ShapeDTO dto, @PathVariable double newX, @PathVariable double newY) {
         try {
+            if(dto.x == newX && dto.y == newY){
+                return ResponseEntity.ok(dto);
+            }
             ShapeFactory factory = new ShapeFactory();
             dto = paintService.updateDTO(dto, newX, newY);
             shape shape = factory.createShape(dto);
@@ -74,6 +77,8 @@ public class control {
         try {
             System.out.println("cloned");
             shape s = paintService.getShapeById(idOld).clone(idNew);
+            s.setX(s.getX()+ 20);
+            s.setY(s.getY()+ 20);
             paintService.addShape(s);
             return ResponseEntity.ok(s);
         } catch (Exception e) {
