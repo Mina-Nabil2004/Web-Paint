@@ -1,34 +1,45 @@
 package com.Paint.Paint.services.shapes;
+
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 @JsonTypeName("ellipse")
 public class Ellipse extends shape {
     private double radiusX;
     private double radiusY;
-    private final String Konvaname = "Ellipse";
+    private static final String Konvaname = "Ellipse";
+
     public Ellipse(ShapeDTO e) {
         super(e);
         this.radiusX = e.radiusX;
         this.radiusY = e.radiusY;
     }
-    public Ellipse(Ellipse e){
+
+    public Ellipse(Ellipse e) {
         super(e);
-        this.setRadiusX(e.getScaleofX());
-        this.setRadiusY(e.getScaleofY());
+        this.radiusX = e.radiusX;
+        this.radiusY = e.radiusY;
     }
+
     @Override
-    public void update(ShapeDTO dto){
+    public void update(ShapeDTO dto) {
         super.update(dto);
-        this.radiusX = dto.radiusX ;
-        this.radiusY = dto.radiusY ;
+        if (dto.radiusX <= 0 || dto.radiusY <= 0) {
+            throw new IllegalArgumentException("Radii must be positive.");
+        }
+        this.radiusX = dto.radiusX;
+        this.radiusY = dto.radiusY;
     }
+
     public double getRadiusX() {
         return radiusX;
     }
-    public String getKonvaname(){
-        return Konvaname;
-     }
+
     public double getRadiusY() {
         return radiusY;
+    }
+
+    public String getKonvaname() {
+        return Konvaname;
     }
 
     public void setRadiusX(double radiusX) {
@@ -38,10 +49,11 @@ public class Ellipse extends shape {
     public void setRadiusY(double radiusY) {
         this.radiusY = radiusY;
     }
+
     @Override
     public shape clone(String cloneid) throws CloneNotSupportedException {
-        Ellipse clonesquare = new Ellipse(this);
-        clonesquare.setId(cloneid);
-        return clonesquare;
+        Ellipse clonedEllipse = new Ellipse(this);
+        clonedEllipse.setId(cloneid);
+        return clonedEllipse;
     }
 }
