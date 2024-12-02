@@ -3,8 +3,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.util.ArrayList;
-
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.PROPERTY,visible = true)
 @JsonSubTypes({
     @JsonSubTypes.Type(value = Circle.class, name = "Circle"),
@@ -14,7 +12,10 @@ import java.util.ArrayList;
     @JsonSubTypes.Type(value = Triangle.class, name = "triangle"),
     @JsonSubTypes.Type(value = Polygon.class, name = "polygon"),
     @JsonSubTypes.Type(value = Hexagon.class, name = "hexagon"),
-    @JsonSubTypes.Type(value = Ellipse.class, name = "ellipse")
+    @JsonSubTypes.Type(value = Ellipse.class, name = "ellipse"),
+    @JsonSubTypes.Type(value = Pentagon.class, name = "pentagon")
+
+   
  
 })
 @JsonIgnoreProperties(value = "attributes" ,ignoreUnknown = true)
@@ -33,6 +34,8 @@ public abstract class shape implements Cloneable{// clonable
     private double skewX;
     private String stroke;
     private double strokeWidth;
+    private double radiusX;
+    private double radiusY;
     private String Konvaname;
 
     private String fill;
@@ -53,6 +56,8 @@ public abstract class shape implements Cloneable{// clonable
         this.scaleY = docreate.scaleY ;
         this.skewX = docreate.skewX ;
         this.skewY = docreate.skewY ;
+        this.radiusX = docreate.radiusX ;
+        this.radiusY = docreate.radiusY ;
     }
     public shape(shape s){ //copy
         this.id = s.id ;
@@ -70,6 +75,8 @@ public abstract class shape implements Cloneable{// clonable
         this.scaleY = s.scaleY ;
         this.skewX = s.skewX ;
         this.skewY = s.skewY ;
+        this.radiusX = s.radiusX ;
+        this.radiusY = s.radiusY ;
     }
     public void update(ShapeDTO dto){
         this.id = dto.id ;
@@ -88,6 +95,8 @@ public abstract class shape implements Cloneable{// clonable
         this.fill = dto.fill ;
         this.skewX = dto.skewX ;
         this.skewY = dto.skewY ;
+        this.radiusX = dto.radiusX ;
+        this.radiusY = dto.radiusY ;
     }
     public abstract shape clone(String cloneid)throws CloneNotSupportedException;
 
@@ -96,6 +105,19 @@ public abstract class shape implements Cloneable{// clonable
     public String getKonvaname() {
         return Konvaname;
     }
+    public double getradiusX(){
+        return radiusX;
+    }
+    public double getradiusY(){
+        return radiusY;
+    }
+    public double setradiusX(){
+        return radiusX;
+    }
+    public double setradiusY(){
+        return radiusY;
+    }
+
     public void setKonvaname(String stroke) {
         this.Konvaname = Konvaname;
     }
