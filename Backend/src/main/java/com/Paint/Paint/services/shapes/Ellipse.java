@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Ellipse extends shape {
     private double radiusX;
     private double radiusY;
-    private static final String Konvaname = "Ellipse";
+    private final String Konvaname = "Ellipse";
+
+    public Ellipse() {
+        super();
+    }
 
     public Ellipse(ShapeDTO e) {
         super(e);
