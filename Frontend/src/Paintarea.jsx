@@ -320,6 +320,63 @@ function Paintarea(props){
         };
         });
 
+
+        useEffect(() => {
+          const handleText = async (e) => {
+            console.log(e.target.attrs);
+        
+            // Check if the clicked node is a Text node
+            if (e.target.attrs.name === "Text") {
+              const textNode = e.target;
+        
+              // Create a textarea element to allow text editing
+              const textarea = document.createElement('textarea');
+              document.body.appendChild(textarea);
+        
+              // Position the textarea on top of the text node
+              const stageBox = e.target.getStage().getClientRect();
+              const textPosition = textNode.getClientRect();
+              textarea.style.position = 'absolute';
+              textarea.style.left = stageBox.left + textPosition.x + 'px';
+              textarea.style.top = stageBox.top + textPosition.y + 'px';
+              textarea.style.width = textNode.width() + 'px';
+              textarea.style.height = textNode.height() + 'px';
+              textarea.value = textNode.text();
+              textarea.focus();
+        
+              // Update the text in the Konva node when the user finishes editing
+              textarea.addEventListener('blur', async () => {
+                textNode.text(textarea.value); // Update Konva Text node
+                e.target.getLayer().batchDraw(); // Re-render the layer
+        
+                // Send the updated text to the server
+                await axios.put('http://localhost:8080/paint/update', textNode.attrs);
+        
+                // Remove the textarea from the DOM
+                textarea.focus();
+              });
+        
+              // You can also add a listener to close the textarea if the user presses Enter (optional)
+              textarea.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                  textarea.blur();
+                }
+              });
+            }
+          };
+        
+          const layer = layerRef.current;
+          layer.children.forEach(child => {
+            child.on('dblclick', handleText);
+          });
+        
+          return () => {
+            layer.children.forEach(child => {
+              child.off('dblclick', handleText);
+            });
+          };
+        }, [layerRef]);
+
       useEffect(() => {
         const checkDeselection = async () => {
           console.log("here");
